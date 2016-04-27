@@ -1,0 +1,139 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8>">
+<title>全部信息-管理</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="stylesheet" type="text/css" href="../admin/skin/system.css" >
+<script type="text/javaScript" src="../images/js/newjs/jquery.min.js"></script>
+<script type="text/javaScript" src="../images/js/newjs/jquery.easyui.min.js"></script>
+
+
+<script type="text/javascript" src="../images/js/newjs/datagrid_adapter.js"></script>
+<script type="text/javascript" src="../images/js/newjs/typeSelecter.js"></script>
+<!--<script type="text/javaScript" src="images/js/css.js"></script>
+<script type="text/javaScript" src="data/config.js"></script>
+<script type="text/javaScript" src="images/js/common.js"></script>
+<script type="text/javaScript" src="images/js/admin.js"></script>
+<script type="text/javascript" src="images/js/validator.js"></script>
+<script type="text/javascript" src="images/js/form.js"></script>-->
+<link rel="stylesheet" type="text/css" href="../images/easyui/easyui.css">
+<link rel="stylesheet" type="text/css" href="../images/js/newjs/easyui-balthasar.css">
+</head>
+<body>
+<!--Form1-->
+<table cellpadding="0" cellspacing="1" class="table_form">
+  <caption>
+	填写设备基本信息
+  </caption>
+  <tr>
+    <td width="151">名称:</td>
+    <td><input id="name" type="name" style="width:300px"/></td>
+  </tr>
+  <tr>
+    <td width="151">物体编号:</td>
+    <td><input id="objectNo" type="objectNo" style="width:300px"/> <a class="buttonlink" >条码扫描</a></td>
+  </tr>
+  <tr>
+    <td width="151">隶属组织:</td>
+    <td><input id="Orgv" type="Orgv" style="width:500px"/></td>
+  </tr>
+  <tr>
+    <td width="151">行政区划:</td>
+    <td>
+         <label>国家：</label>
+         <script>
+               FillCountryChange("",0);
+               fillcombobox('/appPlatform/getCountryList.html','countryId=1','Country',function(){});
+		 </script>
+         <input class="easyui-combobox" name="country" id="Country" data-options="editable:false,valueField:'countryId',
+         																		  textField:'countryName',
+                                                                                  panelHeight:'auto',
+                                                                                  onChange:function(newValue,oldValue){
+                                                                                                   FillCountryChange(newValue,1);
+                                                                                                                      }" style="width:100px;"/>
+        &nbsp;&nbsp;<label>省份：</label>
+        <input class="easyui-combobox" name="province" id="Prov" data-options="editable:false,valueField:'provinceId',
+         																		  textField:'provinceName',
+                                                                                  panelHeight:'auto',
+                                                                                  onChange:function(newValue,oldValue){
+                                                                                                   FillCountryChange(newValue,2);
+                                                                                                                      }" style="width:100px;"/>
+        &nbsp;&nbsp;<label>城市：</label>
+        <input class="easyui-combobox" name="city" id="City" data-options="editable:false,valueField:'cityId',
+         																		  textField:'cityName',
+                                                                                  panelHeight:'auto',
+                                                                                  onChange:function(newValue,oldValue){
+                                                                                                   FillCountryChange(newValue,3);
+                                                                                                                      }" style="width:100px;"/>
+                                                                                                                      
+                                                                                                                      <br/>
+         <label>街道&amp;具体地址：</label>
+    	 <input name="OtherAddress" id="OtherAddress" value="" style="width:405px;margin-top:10px;"/>
+    
+    </td>
+  </tr>
+  <tr>
+    <td width="151">要求授权:</td>
+    <td><select name="IsShouq"><option>是</option><option>否</option></select></td>
+  </tr>
+  <tr>
+    <td width="151">可见性:</td>
+    <td><select name="IsVisible"><option>是</option><option>否</option></select></td>
+  </tr>
+  <tr>
+    <td width="151">地理位置:</td>
+    <td style="padding:0px;">
+        <table cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="width:200px;">
+                            <table cellpadding="0" cellspacing="0">
+                                      <tr>
+                                        <td>坐标</td>
+                                        <td></td>
+                                      </tr>
+                                      <tr>
+                                        <td>经度</td>
+                                        <td><input type="text" name="HBX" class="easyui-numberbox" value="100" data-options="min:0,precision:2"></input></td>
+                                      </tr>
+                                      <tr>
+                                        <td>纬度</td>
+                                        <td><input type="text" name="HBY" class="easyui-numberbox" value="100" data-options="min:0,precision:2"></input></td>
+                                      </tr>
+                                      <tr>
+                                        <td>海拔高度</td>
+                                        <td><input type="text" name="HBZ" class="easyui-numberbox" value="100" data-options="min:0,precision:2"></input></td>
+                                      </tr>
+                            </table>
+                    </td>
+                    <td style="width:200px;height:200px;background:#0F0;">地图控件</td>
+                  </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td width="151">设备描述:</td>
+    <td><textarea style="width:500px;height:50px;"></textarea></td>
+  </tr>
+  <tr>
+    <td width="151">设备图片:</td>
+    <td style="padding:0px;height:200px;">
+    	<iframe src="1.1.2-InputBasicInformation-UploadImage.html" style="width:500px;height:200px;border:none;"></iframe>
+        <input type="hidden" name="DevicePicture" id="DevicePicture" value="" />
+    </td>
+  </tr>
+</table>
+<!--Form1End-->
+
+<!--Form1-->
+<table cellpadding="0" cellspacing="0" style="width:100%">
+          <tr>
+            <td width="100%" style="padding:10px;text-align:center;">
+	            		<a class="buttonlink" >上一步</a>
+	            		<a class="buttonlink" >下一步</a>
+          </tr>
+</table>
+<!--Form1End-->
+
+</body>
+</html>

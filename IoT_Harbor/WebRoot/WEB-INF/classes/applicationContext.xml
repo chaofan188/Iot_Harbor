@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:tool="http://www.springframework.org/schema/tool" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	    http://www.springframework.org/schema/beans/spring-beans.xsd    
+	    http://www.springframework.org/schema/tx    
+	    http://www.springframework.org/schema/tx/spring-tx.xsd    
+	    http://www.springframework.org/schema/aop    
+	    http://www.springframework.org/schema/aop/spring-aop.xsd    
+	    http://www.springframework.org/schema/context    
+	    http://www.springframework.org/schema/context/spring-context.xsd   
+	    http://www.springframework.org/schema/mvc                
+	    http://www.springframework.org/schema/mvc/spring-mvc.xsd          
+	    http://www.springframework.org/schema/jee            
+	    http://www.springframework.org/schema/jee/spring-jee.xsd            
+	    http://www.springframework.org/schema/util            
+	    http://www.springframework.org/schema/util/spring-util.xsd            
+	    http://www.springframework.org/schema/tool            
+	    http://www.springframework.org/schema/tool/spring-tool.xsd">
+
+	<!-- 引入属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 添加对Annotation的支持 -->
+	<context:annotation-config />
+
+	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
+	<context:component-scan base-package="com.cetc.iot" />
+
+
+	<!-- 配置数据源 -->
+	<!-- 公服网数据库 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>${jdbc1.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbc1.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc1.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc1.password}</value>
+		</property>
+		<!--连接池中保留的最小连接数。 -->
+		<property name="minPoolSize">
+			<value>5</value>
+		</property>
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize">
+			<value>30</value>
+		</property>
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize">
+			<value>10</value>
+		</property>
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime">
+			<value>60</value>
+		</property>
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement">
+			<value>5</value>
+		</property>
+		<!--JDBC的标准参数，用以控制数据源内加载的PreparedStatements数量。但由于预缓存的statements 属于单个connection而不是整个连接池。所以设置这个参数需要考虑到多方面的因素。 
+			如果maxStatements与maxStatementsPerConnection均为0，则缓存被关闭。Default: 0 -->
+		<property name="maxStatements">
+			<value>0</value>
+		</property>
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod">
+			<value>60</value>
+		</property>
+		<!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+		<property name="acquireRetryAttempts">
+			<value>30</value>
+		</property>
+		<!-- Default: 1000 
+          Milliseconds, time c3p0 will wait between acquire attempts.  -->
+		<property name="acquireRetryDelay">
+            <value>100</value>
+        </property>
+		<!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效 保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试 
+			获取连接失败后该数据源将申明已断开并永久关闭。Default: false -->
+		<property name="breakAfterAcquireFailure">
+			<value>false</value>
+		</property>
+		<!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的 时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable 
+			等方法来提升连接测试的性能。Default: false -->
+		<property name="testConnectionOnCheckout">
+			<value>false</value>
+		</property>
+	</bean>
+
+	<!-- 配置Jdbc模板 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"
+		p:dataSource-ref="dataSource"></bean>
+
+	<tx:annotation-driven transaction-manager="txManager" />
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+         <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/jsp/"
+		p:suffix=".jsp" />
+
+	<bean id="ServiceFilterImpl1"
+		class="com.cetc.iot.servicesystem.service.impl.VeMessageFilter_veidIsExist" />
+	<bean id="ServiceFilterImpl2"
+		class="com.cetc.iot.servicesystem.service.impl.VeMessageFilter_keyIsNotTrue" />
+	<bean id="ServiceFilterImpl3"
+		class="com.cetc.iot.servicesystem.service.impl.VeMessageFilter_checkVeState" />
+	<bean id="ServiceProcessor" class="com.cetc.iot.servicesystem.service.impl.VeProcessor">
+
+		<property name="ServiceFilterMap">
+			<map>
+				<!-- key要写成纯数字自动递增的形式 -->
+				<entry key="0" value-ref="ServiceFilterImpl1" />
+			    <!-- <entry key="1" value-ref="ServiceFilterImpl2" />  -->
+				<entry key="1" value-ref="ServiceFilterImpl3" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 页面返回值设定 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="stringHttpMessageConverter" />
+				<ref bean="mappingJacksonHttpMessageConverter"></ref>
+			</list>
+		</property>
+	</bean>
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="stringHttpMessageConverter"
+		class="org.springframework.http.converter.StringHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/plain;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 上传拦截，如最大上传值及最小上传值 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" /><!-- 100M -->
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+	<!-- 提供远程调用 -->
+	<!--<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter"></bean> 
+		<bean id="httpInvokerSpringService" name="/springService" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter"> 
+		<property name="service" ref="springService"></property> <property name="serviceInterface" 
+		value="com.cetc.iot.servicesystem.service.SpringService"></property> </bean> -->
+	<!-- <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping"> 
+		<property name="mappings"> <value>/springService.service=httpInvokerSpringService</value> 
+		</property> </bean> -->
+
+	<!-- ActiveMQ For Spring的配置项 -->
+
+	<bean id="tagetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${activemqUrl}"></property>
+	</bean>
+
+	<bean id="tagetConnectionFactoryListen" class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="${activemqUrl}"></property>
+	</bean>
+
+	<bean id="pooledConnectionFactory" class="org.apache.activemq.jms.pool.PooledConnectionFactory">
+		<property name="connectionFactory" ref="tagetConnectionFactoryListen"></property>
+		<property name="maxConnections" value="1000"></property>
+		<property name="maximumActiveSessionPerConnection" value="1000"></property>
+	</bean>
+
+	<bean id="connectionFactory"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="tagetConnectionFactory"></property>
+	</bean>
+
+	<bean id="connectionFactoryListen"
+		class="org.springframework.jms.connection.CachingConnectionFactory">
+		<property name="targetConnectionFactory" ref="pooledConnectionFactory"></property>
+	</bean>
+
+	<bean id="queueDestination" class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg value="pe.request"></constructor-arg>
+	</bean>
+
+	<bean id="topicDestination" class="org.apache.activemq.command.ActiveMQTopic">
+		<constructor-arg value="NullTopic"></constructor-arg>
+	</bean>
+
+	<bean id="jmsTemplateTopicSend" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory"></property>
+		<property name="defaultDestination" ref="topicDestination"></property>
+		<property name="pubSubDomain" value="true">
+		</property>
+	</bean>
+
+	<bean id="jmsTemplateTopicListener" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactoryListen"></property>
+		<property name="defaultDestination" ref="topicDestination"></property>
+		<property name="pubSubDomain" value="true">
+		</property>
+	</bean>
+
+	<bean id="jmsTemplateQueueSend" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory"></property>
+		<property name="defaultDestination" ref="queueDestination"></property>
+	</bean>
+
+	<bean id="jmsTemplateQueueListener" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactoryListen"></property>
+		<property name="defaultDestination" ref="queueDestination"></property>
+	</bean>
+
+	<bean id="queueMessageListener" class="com.cetc.iot.communicate.PEReciver"></bean>
+
+	<bean id="jmsQueueListener"
+		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+		<property name="connectionFactory" ref="connectionFactoryListen"></property>
+		<property name="destination" ref="queueDestination"></property>
+		<property name="messageListener" ref="queueMessageListener"></property>
+	</bean>
+	
+	<!-- ActiveMQ For Spring的配置结束 -->
+</beans>

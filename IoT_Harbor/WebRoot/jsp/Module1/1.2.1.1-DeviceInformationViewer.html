@@ -1,0 +1,189 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8>">
+<title>全部信息-管理</title>
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<link rel="stylesheet" type="text/css" href="../admin/skin/system.css" >
+<script type="text/javaScript" src="../images/js/newjs/jquery.min.js"></script>
+<script type="text/javaScript" src="../images/js/newjs/jquery.easyui.min.js"></script>
+
+
+<script type="text/javascript" src="../images/js/newjs/datagrid_adapter.js"></script>
+<script type="text/javascript" src="../images/js/newjs/typeSelecter.js"></script>
+<!--<script type="text/javaScript" src="images/js/css.js"></script>
+<script type="text/javaScript" src="data/config.js"></script>
+<script type="text/javaScript" src="images/js/common.js"></script>
+<script type="text/javaScript" src="images/js/admin.js"></script>
+<script type="text/javascript" src="images/js/validator.js"></script>
+<script type="text/javascript" src="images/js/form.js"></script>-->
+<link rel="stylesheet" type="text/css" href="../images/easyui/easyui.css">
+<link rel="stylesheet" type="text/css" href="../images/js/newjs/easyui-balthasar.css">
+</head>
+<body>
+<!--Form1-->
+<table cellpadding="0" cellspacing="1" class="table_form">
+  <caption>
+	设备基本信息
+  </caption>
+  <tr>
+    <td width="151">名称:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">类型:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">型号:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">物体编号:</td>
+    <td> <a class="buttonlink" >查看条码</a></td>
+  </tr>
+  <tr>
+    <td width="151">设备图片:</td>
+    <td style="padding:0px;height:200px;"><img src="" width="264" height="195"/></td>
+  </tr>
+  <tr>
+    <td width="151">隶属组织:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">行政区划:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">地理位置:</td>
+    <td style="padding:0px;">
+        <table cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="width:200px;">
+                            <table cellpadding="0" cellspacing="0">
+                                      <tr>
+                                        <td>坐标</td>
+                                        <td></td>
+                                      </tr>
+                                      <tr>
+                                        <td>经度</td>
+                                        <td></td>
+                                      </tr>
+                                      <tr>
+                                        <td>纬度</td>
+                                        <td></td>
+                                      </tr>
+                                      <tr>
+                                        <td>海拔高度</td>
+                                        <td></td>
+                                      </tr>
+                            </table>
+                    </td>
+                    <td style="width:200px;height:200px;background:#0F0;">地图控件</td>
+                  </tr>
+        </table>
+    </td>
+  </tr>
+  <tr>
+    <td width="151">设备描述:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">设备状态:</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td width="151">生命周期:</td>
+    <td></td>
+  </tr>
+</table>
+<!--Form1End-->
+
+<!--Form1-->
+<table cellpadding="0" cellspacing="0" style="width:100%">
+          <tr>
+            <td width="100%" style="padding:0px;text-align:center;">
+	            		<a class="buttonlink" >激活</a>
+	            		<a class="buttonlink" >冻结</a>
+	            		<a class="buttonlink" >解冻</a>
+	            		<a class="buttonlink" >查看</a>
+          </tr>
+</table>
+<!--Form1End-->
+
+<!--Form1-->
+<table cellpadding="0" cellspacing="1" class="table_form" style="width:98%">
+          <caption>
+            设备历史状态
+          </caption>
+          <tr>
+            <td style="padding:0px;">
+            <!-- DATAGRID -->
+            		<script>
+					function Linkformatter(value,row,index)
+					{
+						//var pid=GetGridValue("#dg",index,2);//获取列明
+						return "<a href='B_R_1_1_2_1.html' target='_blank'>"+value+"</a>";
+
+					}
+					</script>
+            <table id="localdeviceView" class="easyui-datagrid" style="height:200px;"
+                        data-options="rownumbers:true,singleSelect:true,url:'data.json',method:'get'">
+			        <thead>
+                            <tr style="background:#CCC">
+                                <th data-options="field:'ck',checkbox:true">全选</th>
+                                <th data-options="field:'itemid',width:200,align:'center',formatter:Linkformatter">数据点ID</th>
+                              <th data-options="field:'productid',width:200,align:'center'">时间</th>
+                              <th data-options="field:'aaa',width:200,align:'center'">接口</th>
+                              <th data-options="field:'aaa',width:100,align:'center'">状态</th>
+                              <th data-options="field:'aaa',width:100,align:'center'">操作VE</th>
+                              <th data-options="field:'aaa',width:200,align:'center'">内容</th>
+                            </tr>
+                    </thead>
+            </table>
+            <!-- DATAGRIDEND -->
+            </td>
+          </tr>
+</table>
+<!--Form1End-->
+
+<!--Form1-->
+<table cellpadding="0" cellspacing="1" class="table_form">
+          <caption>
+            设备授权状态
+          </caption>
+          <tr>
+            <td style="padding:0px;">
+            <!-- DATAGRID -->
+            <table id="localdeviceView" class="easyui-datagrid" style="height:200px;"
+                        data-options="rownumbers:true,singleSelect:true,url:'data.json',method:'get'">
+			        <thead>
+                            <tr style="background:#CCC">
+                                <th data-options="field:'ck',checkbox:true">全选</th>
+                              <th data-options="field:'productid',width:200,align:'center',formatter:Linkformatter">ID</th>
+                                <th data-options="field:'itemid',width:200,align:'center'">实体名称</th>
+                              <th data-options="field:'aaa',width:200,align:'center'">类型</th>
+                              <th data-options="field:'aaa',width:100,align:'center'">申请时间</th>
+                              <th data-options="field:'aaa',width:100,align:'center'">状态</th>
+                              <th data-options="field:'aaa',width:200,align:'center'">请求描述</th>
+                            </tr>
+                    </thead>
+            </table>
+            <!-- DATAGRIDEND -->
+            </td>
+          </tr>
+</table>
+<!--Form1End-->
+
+
+<!--Form1-->
+<table cellpadding="0" cellspacing="0" style="width:100%">
+          <tr>
+            <td width="100%" style="padding:10px;text-align:center;">
+	            		<a class="buttonlink" >关闭</a>
+	            		<a class="buttonlink" >修改</a>
+          </tr>
+</table>
+<!--Form1End-->
+</body>
+</html>

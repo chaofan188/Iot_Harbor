@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="gb2312"?>
+<template xmlns:pe="http://192.168.22.39/namespace/pe"
+	xmlns:ve="http://192.168.22.39/namespace/ve" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<tplID>111</tplID>
+	<name>temperatureAndViberator</name>
+	<type>020040310004</type>
+	<version>1.1</version>  
+	<openness>1</openness> 
+	<alias>pav</alias>   
+	<enrolltime>2013-11-20 14:10:38.0</enrolltime> 
+	
+	<description>温度传感器和振动传感器的复合模板</description>  
+        <icon/>
+	<display/>
+	<peTemplate>   
+		<description>绑定PE模板</description>  
+		<bindNum description="表示最多能绑定pe模板的个数">2</bindNum>  
+		<item>
+			<identifyID>temperature</identifyID>        
+			<templateID reviewType="1">cetc28_sensor</templateID>
+                        <bind_min>1</bindMin>
+                        <bind_max>10</bindMax>
+			<bind_type>0</bind_type>         
+		</item>
+		<item>
+			<identifyID>viberator</identifyID>
+			<templateID reviewType="1">model-zigbee-cetc28-sensor</templateID>
+                        <bind_min>1</bindMin>
+                        <bind_max>10</bindMax>
+			<bind_type>0</bind_type>
+		</item>
+	</peTemplate>
+	<service >
+		<item> 
+			<identifyIDs>
+			     <identifyID>viberator</identifyID>        
+			     <identifyID>temperature</identifyID>
+                        </identifyIDs>
+			
+			<service_name>ComplexService</service_name>   
+			<params count="4"> 
+			     <param>
+				<type>char</type>         
+				<name>Temperatureswitcher</name>      
+				<values>
+				   <value>on</value>         
+				   <value>off</value>
+				</values>
+                	     </param>
+                            <param>
+				<type>char</type>         
+				<name>viberswitcher</name>      
+				<values>
+				   <value>on</value>         
+				   <value>off</value>
+				</values>
+                	     </param>
+                              <param>
+				<type>String</type>
+				<name>temperaturetime</name>
+                             </param>
+                             <param>
+				<type>String</type>
+				<name>vibertime</name>
+                             </param>
+			</params>
+			
+			<description>该服务提供打开温度传感器和车向前跑服务</description>
+		</item>
+	</service>
+</template>
+
+
+
+
+

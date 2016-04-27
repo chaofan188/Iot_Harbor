@@ -1,0 +1,20 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+#bodymap
+{
+	background:url(../images/modules/3-1.png);
+	background-position:top;
+	background-repeat:repeat-x;
+}
+#titlebar
+{
+	background:url(../images/modules/3-1.png);
+	background-position:center;
+	border:none;
+	background-repeat:no-repeat;
+}
+#titlespliter
+{
+	font-family:物体生产者; /*设定标题！*/
+}
